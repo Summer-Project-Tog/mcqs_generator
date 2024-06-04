@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* Changed from space-between to flex-start */
 }
 
 .nav-bar {
@@ -36,6 +36,7 @@ nav a {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2em; /* Added margin-top to space it from the header */
 }
 
 .content h1 {
