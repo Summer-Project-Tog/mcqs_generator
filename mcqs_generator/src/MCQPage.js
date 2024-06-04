@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './App.css';
-import { db, collection, getDocs } from './firebase';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./App.css";
+import { db, collection, getDocs } from "./firebase.js";
 
 function MCQPage() {
   const [questions, setQuestions] = useState([]);
@@ -12,7 +12,7 @@ function MCQPage() {
       const querySnapshot = await getDocs(collection(db, "questions"));
       const questionsArray = [];
       querySnapshot.forEach((doc) => {
-        questionsArray.push(doc.data());
+        questionsArray.push(doc.data().question);
       });
       setQuestions(questionsArray);
     };
@@ -21,7 +21,7 @@ function MCQPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate('/results');
+    navigate("/results");
   };
 
   return (
@@ -40,12 +40,21 @@ function MCQPage() {
           <form onSubmit={handleSubmit}>
             {questions.map((question, index) => (
               <div key={index}>
-                <label>{`Question ${index + 1}: ${question.question}`}</label>
-                {question.options.map((option, idx) => (
-                  <div key={idx}>
-                    <input type="radio" name={`q${index + 1}`} value={option} /> {option}
-                  </div>
-                ))}
+                <label>{`Question ${index + 1}: ${question}`}</label>
+                {question.options && Array.isArray(question.options) ? (
+                  question.options.map((option, idx) => (
+                    <div key={idx}>
+                      <input
+                        type="radio"
+                        name={`q${index + 1}`}
+                        value={option}
+                      />{" "}
+                      {option}
+                    </div>
+                  ))
+                ) : (
+                  <div>Options not available</div>
+                )}
               </div>
             ))}
             <button type="submit">Done!</button>
