@@ -1,4 +1,7 @@
 import React from 'react';
+import facebookLogo from './assets/images/facebook_logo.png';
+import twitterLogo from './assets/images/twitter_logo.png';
+import instagramLogo from './assets/images/instagram_logo.png';
 import { Link } from 'react-router-dom';
 import './App.css';
 
@@ -21,16 +24,16 @@ function HomePage() {
           <Link to="/mcq">
             <button className="submit-button">Submit</button>
           </Link>
-          <p>OR</p>
+          <p className="OR-logo">OR</p>
           <button className="import-button">Import a PDF text</button>
         </div>
       </header>
       <footer className="App-footer">
         <p>MCQ Gen</p>
         <div className="social-icons">
-          <a href="#facebook">Facebook</a>
-          <a href="#twitter">Twitter</a>
-          <a href="#instagram">Instagram</a>
+          <a href="#facebook"><img src={facebookLogo} alt="Facebook" className="social-media-logo"/></a>
+          <a href="#twitter"><img src={twitterLogo} alt="Twitter" className="social-media-logo"/></a>
+          <a href="#instagram"><img src={instagramLogo} alt="Instagram" className="social-media-logo"/></a>
         </div>
       </footer>
     </div>

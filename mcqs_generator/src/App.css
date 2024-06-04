@@ -1,84 +1,142 @@
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .App {
   text-align: center;
   font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-header {
-  background-color: #f0f8ff;
-  min-height: 100vh;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* Changed from space-between to flex-start */
+  flex: 1; /* Allow header to take remaining space */
+}
+
+.App-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 1em;
+  flex-shrink: 0; /* Prevent footer from shrinking */
+  border-top: 0.1px solid #999; /* Added border-top to separate footer from content */
 }
 
 .nav-bar {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #87cefa;
-  padding: 1em;
+  background-color: #8bdcff;
+  padding: 1.3em 1em;
 }
 
 .logo {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: bold;
+  margin: 0 1em;
 }
 
 nav a {
-  margin: 0 1em;
+  margin-left: 1em;
+  margin-right: 1em;
   text-decoration: none;
   color: black;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 0.8em;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2em; /* Added margin-top to space it from the header */
+  margin-top: 3em; /* Added margin-top to space it from the header */
 }
 
 .content h1 {
   font-size: 2em;
-  margin: 1em 0;
+  margin: 0.5em 0;
 }
 
 .content p {
-  font-size: 1.2em;
-  margin: 0.5em 0;
+  font-size: 1em;
+  margin-bottom: 2em;
 }
 
 textarea {
-  width: 60%;
-  height: 100px;
-  margin: 1em 0;
+  width: 90%;
+  height: 160px;
+  margin-top: 1em;
   padding: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1.5px solid #0085FF;
+  border-radius: 0px;
 }
 
-.submit-button,
-.import-button {
-  background-color: #87cefa;
+textarea::placeholder {
+  font-family: 'Arial', sans-serif; /* Set the desired font */
+  font-size: 0.9em; /* Set the desired font size */
+  color: #999; /* Set the desired color */
+}
+
+.submit-button {
+  background-color: #8bdcff;
+  width: 300px;
+  font-weight: 550;
   border: none;
-  padding: 0.5em 1em;
-  border-radius: 5px;
+  padding: 0.8em 1em;
+  border-radius: 20px;
   font-size: 1em;
   cursor: pointer;
-  margin: 0.5em 0;
+  margin: 1em 0;
 }
 
-.App-footer {
+.content .OR-logo{
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 1em 0;
+}
+
+.import-button {
+  background-color: #ffffff;
+  width: 300px;
+  border: none;
+  padding: 0.8em 1em;
+  border: 1.5px solid #0085FF;
+  font-size: 0.8em;
+  color: #0085FF;
+  cursor: pointer;
+  margin: 1em 0;
+}
+
+.App-footer p{
+  font-size: 0.8em;
+  margin: 0;
+}
+
+.social-icons{
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  background-color: #f0f8ff;
-  padding: 1em;
+  flex-direction: row;
+  justify-content: space-around;
+  
 }
 
-.social-icons a {
-  margin: 0 0.5em;
-  text-decoration: none;
-  color: black;
+.social-media-logo{
+  width: 15px;
+  height: auto;
+  margin: 0 0.3em;
 }
