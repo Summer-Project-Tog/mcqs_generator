@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './App.css';
+import { db, collection, getDocs } from './firebase';
 
 function MCQPage() {
+  const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      const querySnapshot = await getDocs(collection(db, "questions"));
+      const questionsArray = [];
+      querySnapshot.forEach((doc) => {
+        questionsArray.push(doc.data());
+      });
+      setQuestions(questionsArray);
+    };
+    fetchQuestions();
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     navigate('/results');
@@ -23,34 +38,16 @@ function MCQPage() {
         <div className="content">
           <h1>MCQ Quiz</h1>
           <form onSubmit={handleSubmit}>
-            <div>
-              <label>Question 1: What is the color of apple?</label>
-              <input type="radio" name="q1" value="Red" /> Red
-              <input type="radio" name="q1" value="Blue" /> Blue
-              <input type="radio" name="q1" value="Green" /> Green
-              <input type="radio" name="q1" value="Yellow" /> Yellow
-            </div>
-            <div>
-              <label>Question 2: What is the color of apple?</label>
-              <input type="radio" name="q2" value="Red" /> Red
-              <input type="radio" name="q2" value="Blue" /> Blue
-              <input type="radio" name="q2" value="Green" /> Green
-              <input type="radio" name="q2" value="Yellow" /> Yellow
-            </div>
-            <div>
-              <label>Question 3: What is the color of apple?</label>
-              <input type="radio" name="q3" value="Red" /> Red
-              <input type="radio" name="q3" value="Blue" /> Blue
-              <input type="radio" name="q3" value="Green" /> Green
-              <input type="radio" name="q3" value="Yellow" /> Yellow
-            </div>
-            <div>
-              <label>Question 4: What is the color of apple?</label>
-              <input type="radio" name="q4" value="Red" /> Red
-              <input type="radio" name="q4" value="Blue" /> Blue
-              <input type="radio" name="q4" value="Green" /> Green
-              <input type="radio" name="q4" value="Yellow" /> Yellow
-            </div>
+            {questions.map((question, index) => (
+              <div key={index}>
+                <label>{`Question ${index + 1}: ${question.question}`}</label>
+                {question.options.map((option, idx) => (
+                  <div key={idx}>
+                    <input type="radio" name={`q${index + 1}`} value={option} /> {option}
+                  </div>
+                ))}
+              </div>
+            ))}
             <button type="submit">Done!</button>
           </form>
         </div>
