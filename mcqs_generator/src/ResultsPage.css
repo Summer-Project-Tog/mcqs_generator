@@ -1,13 +1,20 @@
 /* ResultsPage.css */
 
-/* Header Styles */
-.ResultsPage .App-header {
+/* General Styles */
+.ResultsPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the page takes the full height of the viewport */
+  }
+  
+  /* Header Styles */
+  .ResultsPage .App-header {
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    flex: 1;
+    flex: 0 1 auto; /* Ensure header does not grow or shrink unexpectedly */
   }
   
   .ResultsPage .nav-bar {
@@ -36,6 +43,15 @@
   
   .ResultsPage nav a:hover {
     text-decoration: underline;
+  }
+  
+  /* Content Styles */
+  .ResultsPage .content {
+    flex: 1 0 auto; /* Allow content to grow and take up available space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
   }
   
   /* Footer Styles */
