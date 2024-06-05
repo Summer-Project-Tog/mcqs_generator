@@ -62,7 +62,7 @@ function ResultsPage() {
           </nav>
         </div>
         <div className="content">
-          <h1>Congratulations!</h1>
+          <h1>{score / Object.keys(correctAnswers).length > 0.5 ? 'Congratulations!' : 'Try harder next time!'}</h1>
           <p>Your results: {score}/{Object.keys(correctAnswers).length} ({((score / Object.keys(correctAnswers).length) * 100).toFixed(2)}%)</p>
           <p>Status: {score / Object.keys(correctAnswers).length > 0.5 ? 'PASSED' : 'FAILED'}</p>
           <p>Time: {formatTime(timer)}</p>

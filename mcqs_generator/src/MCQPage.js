@@ -37,12 +37,13 @@ function MCQPage() {
     };
     fetchQuestions();
 
-    const interval = setInterval(() => {
-      setTimer(prevTimer => prevTimer + 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+    if (!showAnswers) {
+      const interval = setInterval(() => {
+        setTimer(prevTimer => prevTimer + 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [showAnswers]);
 
   const handleOptionChange = (questionId, optionIndex) => {
     setAnswers({
@@ -88,7 +89,7 @@ function MCQPage() {
         </div>
         <div className="content">
           <h1>MCQ Quiz</h1>
-          <div className="timer">Time Elapsed: {formatTime(timer)}</div>
+          {!showAnswers && <div className="timer">Time Elapsed: {formatTime(timer)}</div>}
           <form onSubmit={handleSubmit}>
             {questions.map((questionObj, index) => (
               <div key={index} className="question-container">
@@ -119,6 +120,7 @@ function MCQPage() {
           </form>
         </div>
       </header>
+      {showAnswers && <button className="home-button" onClick={() => navigate('/')}>Home</button>}
       <footer className="App-footer">
         <p>MCQ Gen</p>
         <div className="social-icons">
