@@ -8,6 +8,7 @@ import { db, collection, getDocs } from "./firebase.js";
 
 function MCQPage() {
   const [questions, setQuestions] = useState([]);
+  const [timer, setTimer] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,11 +25,26 @@ function MCQPage() {
       setQuestions(questionsArray);
     };
     fetchQuestions();
+
+    // Start the timer when the component mounts
+    const interval = setInterval(() => {
+      setTimer(prevTimer => prevTimer + 1);
+    }, 1000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    // Stop the timer when the user submits the form
     navigate("/results");
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
   return (
@@ -44,6 +60,7 @@ function MCQPage() {
         </div>
         <div className="content">
           <h1>MCQ Quiz</h1>
+          <div className="timer">Time Elapsed: {formatTime(timer)}</div>
           <form onSubmit={handleSubmit}>
             {questions.map((questionObj, index) => (
               <div key={index} className="question-container">
@@ -82,7 +99,5 @@ function MCQPage() {
     </div>
   );
 }
-
-
 
 export default MCQPage;
