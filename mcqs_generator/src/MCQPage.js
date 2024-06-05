@@ -8,6 +8,7 @@ import { db, collection, getDocs } from "./firebase.js";
 
 function MCQPage() {
   const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState({});
   const [timer, setTimer] = useState(0);
   const navigate = useNavigate();
 
@@ -18,6 +19,7 @@ function MCQPage() {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         questionsArray.push({
+          id: doc.id, // Use document ID
           question: data.question,
           options: data.option,
         });
@@ -26,19 +28,23 @@ function MCQPage() {
     };
     fetchQuestions();
 
-    // Start the timer when the component mounts
     const interval = setInterval(() => {
       setTimer(prevTimer => prevTimer + 1);
     }, 1000);
 
-    // Cleanup the interval on component unmount
     return () => clearInterval(interval);
   }, []);
 
+  const handleOptionChange = (questionId, optionIndex) => {
+    setAnswers({
+      ...answers,
+      [questionId]: optionIndex, // Use questionId instead of index
+    });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Stop the timer when the user submits the form
-    navigate("/results");
+    navigate("/results", { state: { timer, answers } });
   };
 
   const formatTime = (seconds) => {
@@ -72,8 +78,9 @@ function MCQPage() {
                       <div key={idx} className="option">
                         <input
                           type="radio"
-                          name={`q${index + 1}`}
-                          value={option}
+                          name={`q${questionObj.id}`} // Use questionId as name
+                          value={idx}
+                          onChange={() => handleOptionChange(questionObj.id, idx)}
                         />{" "}
                         {option}
                       </div>
