@@ -16,6 +16,7 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-size: calc(10px + 2vmin);
 }
 
 .App-header {
@@ -42,8 +43,9 @@ html, body {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #8bdcff;
+  background-color: #007bff;
   padding: 1.3em 1em;
+  color: white;
 }
 
 .logo {
@@ -56,7 +58,7 @@ nav a {
   margin-left: 1em;
   margin-right: 1em;
   text-decoration: none;
-  color: black;
+  color: white;
   font-weight: 500;
   font-size: 0.8em;
 }
@@ -94,7 +96,7 @@ textarea::placeholder {
 }
 
 .submit-button {
-  background-color: #8bdcff;
+  background-color: #007bff;
   width: 300px;
   font-weight: 550;
   border: none;
@@ -103,12 +105,13 @@ textarea::placeholder {
   font-size: 1em;
   cursor: pointer;
   margin: 1em 0;
+  color: white;
 }
 
 .content .OR-logo{
   font-size: 1.2em;
   font-weight: 600;
-  margin: 1em 0;
+  margin: 1em 00;
 }
 
 .import-button {

@@ -1,16 +1,15 @@
 /* MCQPage.css */
 .mcq-page {
     text-align: center;
-    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    
     font-size: calc(10px + 2vmin);
-    color: #333;
     padding-bottom: 2rem;
   }
+
   
   .mcq-page .nav-bar {
     display: flex;
@@ -39,7 +38,8 @@
     text-decoration: underline;
   }
   
-  .mcq-page .content {
+ /* Content Styles */
+.mcq-page .content {
     text-align: left;
     width: 80%;
     max-width: 800px;
@@ -56,21 +56,29 @@
     padding: 1rem 0;
     margin: 1rem 0;
   }
+
+  .mcq-page h1 {
+    font-size: 2em;  /* Adjust heading size */
+  }
   
   .mcq-page .question-text {
     font-weight: bold;
+    font-size: 1.1em; 
   }
   
   .mcq-page .question {
     margin: 0.5rem 0;
+    font-size: 1em;
   }
   
   .mcq-page .options-container {
     margin: 0.5rem 0;
+    font-size: 1em;
   }
   
   .mcq-page .option {
     margin: 0.25rem 0;
+    font-size: 0.8em;
   }
   
   .mcq-page button[type="submit"] {
@@ -89,33 +97,30 @@
   }
   
   /* Footer Styles */
-  .mcq-page .footer {
-    width: 100%;
-    background-color: #f8f8f8;
-    padding: 1rem;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-  }
-  
-  .mcq-page .footer p {
-    margin: 0;
-    color: #333;
-  }
-  
-  .mcq-page .footer .social-icons {
+  .mcq-page .App-footer {
     display: flex;
-    justify-content: center;
-    margin-top: 0.5rem;
+    justify-content: space-between;
+    width: 98%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 1em;
+    flex-shrink: 0;
+    border-top: 0.1px solid #999;
   }
   
-  .mcq-page .footer .social-icons a {
-    margin: 0 0.5rem;
-    color: #333;
-    text-decoration: none;
-    font-size: 1.2rem;
+  .mcq-page .App-footer p {
+    font-size: 0.8em;
+    margin: 0;
   }
   
-  .mcq-page .footer .social-icons a:hover {
-    color: #007bff;
+  .mcq-page .social-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  .mcq-page .social-media-logo {
+    width: 15px;
+    height: auto;
+    margin: 0 0.3em;
   }

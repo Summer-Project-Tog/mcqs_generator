@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import facebookLogo from './assets/images/facebook_logo.png';
+import twitterLogo from './assets/images/twitter_logo.png';
+import instagramLogo from './assets/images/instagram_logo.png';
 import "./MCQPage.css";  // Import the new CSS file
 import { db, collection, getDocs } from "./firebase.js";
 
@@ -68,17 +71,18 @@ function MCQPage() {
           </form>
         </div>
       </header>
-      <footer className="footer">
+      <footer className="App-footer">
         <p>MCQ Gen</p>
         <div className="social-icons">
-          <a href="#facebook" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
-          <a href="#twitter" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
-          <a href="#instagram" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-          <a href="#youtube" aria-label="YouTube"><i className="fab fa-youtube"></i></a>
+          <a href="#facebook"><img src={facebookLogo} alt="Facebook" className="social-media-logo"/></a>
+          <a href="#twitter"><img src={twitterLogo} alt="Twitter" className="social-media-logo"/></a>
+          <a href="#instagram"><img src={instagramLogo} alt="Instagram" className="social-media-logo"/></a>
         </div>
       </footer>
     </div>
   );
 }
+
+
 
 export default MCQPage;
