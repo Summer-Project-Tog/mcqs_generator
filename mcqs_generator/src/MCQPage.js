@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./App.css";
+import "./MCQPage.css";  // Import the new CSS file
 import { db, collection, getDocs } from "./firebase.js";
 
 function MCQPage() {
@@ -12,7 +12,11 @@ function MCQPage() {
       const querySnapshot = await getDocs(collection(db, "questions"));
       const questionsArray = [];
       querySnapshot.forEach((doc) => {
-        questionsArray.push(doc.data().question);
+        const data = doc.data();
+        questionsArray.push({
+          question: data.question,
+          options: data.option,
+        });
       });
       setQuestions(questionsArray);
     };
@@ -25,7 +29,7 @@ function MCQPage() {
   };
 
   return (
-    <div className="App">
+    <div className="mcq-page">
       <header className="App-header">
         <div className="nav-bar">
           <div className="logo">MCQ Gen</div>
@@ -38,29 +42,41 @@ function MCQPage() {
         <div className="content">
           <h1>MCQ Quiz</h1>
           <form onSubmit={handleSubmit}>
-            {questions.map((question, index) => (
-              <div key={index}>
-                <label>{`Question ${index + 1}: ${question}`}</label>
-                {question.options && Array.isArray(question.options) ? (
-                  question.options.map((option, idx) => (
-                    <div key={idx}>
-                      <input
-                        type="radio"
-                        name={`q${index + 1}`}
-                        value={option}
-                      />{" "}
-                      {option}
-                    </div>
-                  ))
-                ) : (
-                  <div>Options not available</div>
-                )}
+            {questions.map((questionObj, index) => (
+              <div key={index} className="question-container">
+                <label className="question-text">{`Question ${index + 1}`}</label>
+                <p className="question">{questionObj.question}</p>
+                <div className="options-container">
+                  {questionObj.options && Array.isArray(questionObj.options) ? (
+                    questionObj.options.map((option, idx) => (
+                      <div key={idx} className="option">
+                        <input
+                          type="radio"
+                          name={`q${index + 1}`}
+                          value={option}
+                        />{" "}
+                        {option}
+                      </div>
+                    ))
+                  ) : (
+                    <div>Options not available</div>
+                  )}
+                </div>
               </div>
             ))}
             <button type="submit">Done!</button>
           </form>
         </div>
       </header>
+      <footer className="footer">
+        <p>MCQ Gen</p>
+        <div className="social-icons">
+          <a href="#facebook" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
+          <a href="#twitter" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+          <a href="#instagram" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+          <a href="#youtube" aria-label="YouTube"><i className="fab fa-youtube"></i></a>
+        </div>
+      </footer>
     </div>
   );
 }
