@@ -46,6 +46,10 @@ function ResultsPage() {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
+  const handleShowAnswers = () => {
+    navigate('/mcq', { state: { answers, correctAnswers } });
+  };
+
   return (
     <div className="ResultsPage">
       <header className="App-header">
@@ -62,7 +66,7 @@ function ResultsPage() {
           <p>Your results: {score}/{Object.keys(correctAnswers).length} ({((score / Object.keys(correctAnswers).length) * 100).toFixed(2)}%)</p>
           <p>Status: {score / Object.keys(correctAnswers).length > 0.5 ? 'PASSED' : 'FAILED'}</p>
           <p>Time: {formatTime(timer)}</p>
-          <button onClick={() => navigate('/mcq')}>Show Answers</button>
+          <button onClick={handleShowAnswers}>Show Answers</button>
           <Link to="/">Go back to Home</Link>
         </div>
       </header>

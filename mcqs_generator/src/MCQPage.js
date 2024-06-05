@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import facebookLogo from './assets/images/facebook_logo.png';
 import twitterLogo from './assets/images/twitter_logo.png';
 import instagramLogo from './assets/images/instagram_logo.png';
@@ -10,7 +10,16 @@ function MCQPage() {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [timer, setTimer] = useState(0);
+  const [showAnswers, setShowAnswers] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state) {
+      setAnswers(location.state.answers);
+      setShowAnswers(true);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -53,6 +62,19 @@ function MCQPage() {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
+  const getOptionClass = (questionId, optionIndex) => {
+    if (showAnswers && location.state && location.state.correctAnswers) {
+      const correctAnswer = location.state.correctAnswers[questionId];
+      if (answers[questionId] === optionIndex) {
+        return answers[questionId] === correctAnswer ? 'correct' : 'incorrect';
+      }
+      if (optionIndex === correctAnswer) {
+        return 'correct';
+      }
+    }
+    return '';
+  };
+
   return (
     <div className="mcq-page">
       <header className="App-header">
@@ -75,12 +97,14 @@ function MCQPage() {
                 <div className="options-container">
                   {questionObj.options && Array.isArray(questionObj.options) ? (
                     questionObj.options.map((option, idx) => (
-                      <div key={idx} className="option">
+                      <div key={idx} className={`option ${getOptionClass(questionObj.id, idx)}`}>
                         <input
                           type="radio"
                           name={`q${questionObj.id}`} // Use questionId as name
                           value={idx}
                           onChange={() => handleOptionChange(questionObj.id, idx)}
+                          disabled={showAnswers} // Disable inputs when showing answers
+                          checked={answers[questionObj.id] === idx}
                         />{" "}
                         {option}
                       </div>
@@ -91,7 +115,7 @@ function MCQPage() {
                 </div>
               </div>
             ))}
-            <button type="submit">Done!</button>
+            {!showAnswers && <button type="submit">Done!</button>}
           </form>
         </div>
       </header>
