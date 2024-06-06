@@ -16,7 +16,7 @@ html, body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
 }
 
 .App-header {
@@ -43,9 +43,9 @@ html, body {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #007bff;
+  background-color: #8bdcff;
   padding: 1.3em 1em;
-  color: white;
+  color: black;
 }
 
 .logo {
@@ -58,7 +58,7 @@ nav a {
   margin-left: 1em;
   margin-right: 1em;
   text-decoration: none;
-  color: white;
+  color: black;
   font-weight: 500;
   font-size: 0.8em;
 }
@@ -96,7 +96,7 @@ textarea::placeholder {
 }
 
 .submit-button {
-  background-color: #007bff;
+  background-color: #8bdcff;
   width: 300px;
   font-weight: 550;
   border: none;
@@ -105,7 +105,7 @@ textarea::placeholder {
   font-size: 1em;
   cursor: pointer;
   margin: 1em 0;
-  color: white;
+  color: black;
 }
 
 .content .OR-logo{
@@ -119,9 +119,9 @@ textarea::placeholder {
   width: 300px;
   border: none;
   padding: 0.8em 1em;
-  border: 1.5px solid #0085FF;
+  border: 1.5px solid #1a91ff;
   font-size: 0.8em;
-  color: #0085FF;
+  color: #1a91ff;
   cursor: pointer;
   margin: 1em 0;
 }
