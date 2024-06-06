@@ -5,7 +5,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   overflow-x: hidden;
 }
@@ -59,8 +60,12 @@ nav a {
   margin-right: 1em;
   text-decoration: none;
   color: black;
-  font-weight: 500;
+  font-weight: 550;
   font-size: 0.8em;
+}
+
+nav a:hover {
+  text-decoration: underline;
 }
 
 .content {
@@ -85,12 +90,12 @@ textarea {
   height: 160px;
   margin-top: 1em;
   padding: 1em;
-  border: 1.5px solid #0085FF;
+  border: 1.5px solid #0085ff;
   border-radius: 0px;
 }
 
 textarea::placeholder {
-  font-family: 'Arial', sans-serif; /* Set the desired font */
+  font-family: "Arial", sans-serif; /* Set the desired font */
   font-size: 0.9em; /* Set the desired font size */
   color: #999; /* Set the desired color */
 }
@@ -108,7 +113,7 @@ textarea::placeholder {
   color: black;
 }
 
-.content .OR-logo{
+.content .OR-logo {
   font-size: 1.2em;
   font-weight: 600;
   margin: 1em 00;
@@ -126,19 +131,18 @@ textarea::placeholder {
   margin: 1em 0;
 }
 
-.App-footer p{
+.App-footer p {
   font-size: 0.8em;
   margin: 0;
 }
 
-.social-icons{
+.social-icons {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  
 }
 
-.social-media-logo{
+.social-media-logo {
   width: 15px;
   height: auto;
   margin: 0 0.3em;

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import facebookLogo from './assets/images/facebook_logo.png';
-import twitterLogo from './assets/images/twitter_logo.png';
-import instagramLogo from './assets/images/instagram_logo.png';
-import "./MCQPage.css";  // Import the new CSS file
+import facebookLogo from "./assets/images/facebook_logo.png";
+import twitterLogo from "./assets/images/twitter_logo.png";
+import instagramLogo from "./assets/images/instagram_logo.png";
+import "./MCQPage.css"; // Import the new CSS file
 import { db, collection, getDocs } from "./firebase.js";
 
 function MCQPage() {
@@ -39,7 +39,7 @@ function MCQPage() {
 
     if (!showAnswers) {
       const interval = setInterval(() => {
-        setTimer(prevTimer => prevTimer + 1);
+        setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -60,20 +60,20 @@ function MCQPage() {
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
   const getOptionClass = (questionId, optionIndex) => {
     if (showAnswers && location.state && location.state.correctAnswers) {
       const correctAnswer = location.state.correctAnswers[questionId];
       if (answers[questionId] === optionIndex) {
-        return answers[questionId] === correctAnswer ? 'correct' : 'incorrect';
+        return answers[questionId] === correctAnswer ? "correct" : "incorrect";
       }
       if (optionIndex === correctAnswer) {
-        return 'correct';
+        return "correct";
       }
     }
-    return '';
+    return "";
   };
 
   return (
@@ -89,21 +89,33 @@ function MCQPage() {
         </div>
         <div className="content">
           <h1>MCQ Quiz</h1>
-          {!showAnswers && <div className="timer">Time Elapsed: {formatTime(timer)}</div>}
+          {!showAnswers && (
+            <div className="timer">Time Elapsed: {formatTime(timer)}</div>
+          )}
           <form onSubmit={handleSubmit}>
             {questions.map((questionObj, index) => (
               <div key={index} className="question-container">
-                <label className="question-text">{`Question ${index + 1}`}</label>
+                <label className="question-text">{`Question ${
+                  index + 1
+                }`}</label>
                 <p className="question">{questionObj.question}</p>
                 <div className="options-container">
                   {questionObj.options && Array.isArray(questionObj.options) ? (
                     questionObj.options.map((option, idx) => (
-                      <div key={idx} className={`option ${getOptionClass(questionObj.id, idx)}`}>
+                      <div
+                        key={idx}
+                        className={`option ${getOptionClass(
+                          questionObj.id,
+                          idx
+                        )}`}
+                      >
                         <input
                           type="radio"
                           name={`q${questionObj.id}`} // Use questionId as name
                           value={idx}
-                          onChange={() => handleOptionChange(questionObj.id, idx)}
+                          onChange={() =>
+                            handleOptionChange(questionObj.id, idx)
+                          }
                           disabled={showAnswers} // Disable inputs when showing answers
                           checked={answers[questionObj.id] === idx}
                         />{" "}
@@ -120,13 +132,35 @@ function MCQPage() {
           </form>
         </div>
       </header>
-      {showAnswers && <button className="home-button" onClick={() => navigate('/')}>Home</button>}
+      {showAnswers && (
+        <button className="home-button" onClick={() => navigate("/")}>
+          Home
+        </button>
+      )}
       <footer className="App-footer">
         <p>MCQ Gen</p>
         <div className="social-icons">
-          <a href="#facebook"><img src={facebookLogo} alt="Facebook" className="social-media-logo"/></a>
-          <a href="#twitter"><img src={twitterLogo} alt="Twitter" className="social-media-logo"/></a>
-          <a href="#instagram"><img src={instagramLogo} alt="Instagram" className="social-media-logo"/></a>
+          <a href="#facebook">
+            <img
+              src={facebookLogo}
+              alt="Facebook"
+              className="social-media-logo"
+            />
+          </a>
+          <a href="#twitter">
+            <img
+              src={twitterLogo}
+              alt="Twitter"
+              className="social-media-logo"
+            />
+          </a>
+          <a href="#instagram">
+            <img
+              src={instagramLogo}
+              alt="Instagram"
+              className="social-media-logo"
+            />
+          </a>
         </div>
       </footer>
     </div>

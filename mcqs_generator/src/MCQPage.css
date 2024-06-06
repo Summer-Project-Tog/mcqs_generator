@@ -1,141 +1,166 @@
 /* MCQPage.css */
+
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .mcq-page {
-    text-align: center;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    font-size: calc(10px + 2vmin);
-    padding-bottom: 2rem;
-  }
-  
-  .mcq-page .nav-bar {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    background-color: #007bff;
-    padding: 1.3em 1em;
-    color: white;
-  }
-  
-  .mcq-page .nav-bar .logo {
-    font-size: 1.5rem;
-  }
-  
-  .mcq-page .nav-bar nav {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .mcq-page .nav-bar nav a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  .mcq-page .nav-bar nav a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Content Styles */
-  .mcq-page .content {
-    text-align: left;
-    width: 80%;
-    max-width: 800px;
-    background-color: white;
-    color: black;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 2rem;
-  }
-  
-  .mcq-page .timer {
-    font-size: 1em;
-  }
-  
-  .mcq-page .question-container {
-    border-bottom: 1px solid #e0e0e0;
-    padding: 1rem 0;
-    margin: 1rem 0;
-  }
-  
-  .mcq-page h1 {
-    font-size: 2em;  /* Adjust heading size */
-  }
-  
-  .mcq-page .question-text {
-    font-weight: bold;
-    font-size: 1.1em; 
-  }
-  
-  .mcq-page .question {
-    margin: 0.5rem 0;
-    font-size: 1em;
-  }
-  
-  .mcq-page .options-container {
-    margin: 0.5rem 0;
-    font-size: 1em;
-  }
-  
-  .mcq-page .option {
-    margin: 0.25rem 0;
-    font-size: 0.8em;
-    padding: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .mcq-page .option.correct {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-  }
-  
-  .mcq-page .option.incorrect {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-  }
-  
-  .mcq-page button[type="submit"] {
-    background-color: #007bff;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 1rem;
-  }
-  
-  .mcq-page button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
-  .home-button {
-    background-color: #007bff;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 1rem;
-    align-self: center;
-    margin-bottom: 1rem;
-  }
-  
-  .home-button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Footer Styles */
-  .mcq-page .App-footer {
-    display: flex;
-    justify-content: space-between;
-    width: 98%;
-    margin: 0 auto;
-    background-color: #ffffff;
-    padding: 1em;
-    flex-shrink: 0;
-    border-top: 0.1
-  }
+  text-align: center;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* font-size: calc(10px + 2vmin); */
+}
+
+.mcq-page .App-header {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Changed from space-between to flex-start */
+  flex: 1; /* Allow header to take remaining space */
+}
+
+.mcq-page .nav-bar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #8bdcff;
+  padding: 1.3em 1em;
+  color: black;
+}
+
+.mcq-page .nav-bar .logo {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 0 1em;
+}
+
+.mcq-page .nav-bar nav a {
+  margin-left: 1em;
+  margin-right: 1em;
+  text-decoration: none;
+  color: black;
+  font-weight: 550;
+  font-size: 0.8em;
+}
+
+.mcq-page .nav-bar nav a:hover {
+  text-decoration: underline;
+}
+
+/* Content Styles */
+.mcq-page .content {
+  text-align: left;
+  width: 80%;
+  max-width: 900px;
+  background-color: white;
+  color: black;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+}
+
+.mcq-page .timer {
+  font-size: 1em;
+}
+
+.mcq-page .question-container {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 0;
+  margin: 1rem 0;
+}
+
+.mcq-page h1 {
+  font-size: 2em; /* Adjust heading size */
+}
+
+.mcq-page .question-text {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.mcq-page .question {
+  margin: 0.5rem 0;
+  font-size: 1em;
+}
+
+.mcq-page .options-container {
+  margin: 0.5rem 0;
+  font-size: 1em;
+}
+
+.mcq-page .option {
+  margin: 0.25rem 0;
+  font-size: 0.8em;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.mcq-page .option.correct {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.mcq-page .option.incorrect {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.mcq-page button[type="submit"] {
+  background-color: #8bdcff;
+  color: black;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.mcq-page button[type="submit"]:hover {
+  background-color: #8bdcff;
+}
+
+.home-button {
+  background-color: #8bdcff;
+  color: black;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
+.home-button:hover {
+  background-color: #8bdcff;
+}
+
+/* Footer Styles */
+.mcq-page .App-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 1em;
+  flex-shrink: 0;
+  border-top: 0.1px solid #999;
+}
