@@ -9,6 +9,7 @@ function HomePage() {
   const [text, setText] = useState("");
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const backendUrl = process.env.REACT_APP_BACKEND_URL_POST_TEXT;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,13 +18,16 @@ function HomePage() {
     };
     try {
       // Add the backend URL later!!!
-      const response = await fetch("backend URL", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        backendUrl,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.ok) {
         console.log("Data submitted successfully");
         navigate("/mcq");
