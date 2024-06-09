@@ -15,7 +15,7 @@ function ResultsPage() {
 
   useEffect(() => {
     const fetchCorrectAnswers = async () => {
-      const querySnapshot = await getDocs(collection(db, "Answers"));
+      const querySnapshot = await getDocs(collection(db, "questions"));
       const correctAnswersObj = {};
       querySnapshot.forEach((doc) => {
         console.log(

@@ -18,16 +18,13 @@ function HomePage() {
     };
     try {
       // Add the backend URL later!!!
-      const response = await fetch(
-        backendUrl,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(backendUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       if (response.ok) {
         console.log("Data submitted successfully");
         navigate("/mcq");
@@ -40,6 +37,7 @@ function HomePage() {
     } catch (error) {
       console.error("Error:", error);
       alert("Error: " + error.message);
+      navigate("/mcq");
     }
   };
 
