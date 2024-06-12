@@ -67,6 +67,18 @@ body {
   padding: 1em;
 }
 
+.ResultsPage .content-results {
+  text-align: left;
+}
+
+.ResultsPage .content-chart {
+  flex: 1 0 auto; /* Allow content to grow and take up available space */
+  display: flex;
+  flex-direction: row;
+  align-items: right;
+  padding: 1em;
+}
+
 .ResultsPage .handle-answers-button,
 .ResultsPage .home-button {
   background-color: #ffffff;

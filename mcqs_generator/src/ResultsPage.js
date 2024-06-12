@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
+
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import facebookLogo from "./assets/images/facebook_logo.png";
 import twitterLogo from "./assets/images/twitter_logo.png";
@@ -72,17 +74,40 @@ function ResultsPage() {
               ? "Congratulations!"
               : "Try harder next time!"}
           </h1>
-          <p>
-            Your results: {score}/{Object.keys(correctAnswers).length} (
-            {((score / Object.keys(correctAnswers).length) * 100).toFixed(2)}%)
-          </p>
-          <p>
-            Status:{" "}
-            {score / Object.keys(correctAnswers).length > 0.5
-              ? "PASSED"
-              : "FAILED"}
-          </p>
-          <p>Time: {formatTime(timer)}</p>
+          <div className="content-chart">
+            <div className="content-results">
+              <p>
+                Your results: {score}/{Object.keys(correctAnswers).length} (
+                {((score / Object.keys(correctAnswers).length) * 100).toFixed(2)}%)
+              </p>
+              <p>
+                Status:{" "}
+                {score / Object.keys(correctAnswers).length > 0.5
+                  ? "PASSED"
+                  : "FAILED"}
+              </p>
+              <p>Time: {formatTime(timer)}</p>
+            </div>
+            <Gauge
+              width={100}
+              height={100}
+              value={((score / Object.keys(correctAnswers).length) * 100).toFixed(2)}
+              cornerRadius="0%"
+              sx={(theme) => ({
+                [`& .${gaugeClasses.valueText}`]: {
+                  fontSize: 15,
+                },
+                [`& .${gaugeClasses.valueArc}`]: {
+                  fill: '#0085FF',
+                },
+                [`& .${gaugeClasses.referenceArc}`]: {
+                  fill: '#fe0100',
+                },
+              })}
+            />
+          </div>
+        </div>
+        <div className="content">
           <button onClick={handleShowAnswers} className="handle-answers-button">
             Show Answers
           </button>
