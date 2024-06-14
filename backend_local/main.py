@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
+import gc
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
+from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 from peft import PeftModel, PeftConfig
 import json
@@ -16,7 +17,6 @@ cors = CORS(app, origins="*")
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 firestore_client = firestore.client()
-
 
 @app.route("/api/users", methods=["GET"])
 def users():
@@ -36,10 +36,14 @@ def mcq():
     config = PeftConfig.from_pretrained(model_directory)
 
     base_model_name = config.base_model_name_or_path
-    base_model = AutoModelForCausalLM.from_pretrained(base_model_name)
+    base_model = AutoModelForCausalLM.from_pretrained(base_model_name)  # Do not move to CUDA here
 
     tokenizer = AutoTokenizer.from_pretrained(base_model_name)
-    model = PeftModel.from_pretrained(base_model, model_directory)
+    model = PeftModel.from_pretrained(base_model, model_directory)  # Do not move to CUDA here
+
+    # Move model to GPU if available
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
 
     # Generate the MCQ
     max_retries = 10
@@ -50,7 +54,7 @@ def mcq():
     for question_count in range(num_questions):
         for attempt in range(max_retries):
             try:
-                cleaned_output = generate_mcq(model, tokenizer, notes, input_context)
+                cleaned_output = generate_mcq(model, tokenizer, notes, input_context, device)
                 output_dict = parse_output(cleaned_output)
 
                 # Check if the answer is valid
@@ -89,6 +93,9 @@ def mcq():
             "answer": question.get("answer")
         })
         doc_ids.append(doc_ref.id)
+        
+    del questions, notes, request_data, question_set_ref  # Clear memory
+    gc.collect()
 
     # The question_set_id can be used to retrieve the question set from Firestore and show it on the MCQ page
     return jsonify({"message": "Questions generated and added successfully.",
@@ -97,8 +104,7 @@ def mcq():
 
 
 
-
-def generate_mcq(model, tokenizer, notes, input_context):
+def generate_mcq(model, tokenizer, notes, input_context, device):
     text = f"""Below is a set of notes, paired with an input that provides further context. Given the information provided by the notes, along with the input for further context,
 Create a multiple-choice question related to the query given in the form of:
 
@@ -121,8 +127,9 @@ Key Answer: [Correct option]
 
 ### Response:
 """
-    inputs = tokenizer(text, return_tensors="pt").to("cuda")
-    outputs = model.generate(**inputs, max_new_tokens=256, use_cache=True)
+    inputs = tokenizer(text, return_tensors="pt").to(device)  # Ensure tensors are on GPU
+    with torch.no_grad():  # Use no_grad to avoid storing gradients
+        outputs = model.generate(**inputs, max_new_tokens=256, use_cache=True)
     output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
     
     start_keyword = "### Response:"
@@ -132,6 +139,10 @@ Key Answer: [Correct option]
         cleaned_output = output_text[start_index:].strip()
     else:
         cleaned_output = output_text.strip()
+        
+    del inputs, outputs  # Free up GPU memory
+    gc.collect()  # Perform garbage collection
+    torch.cuda.empty_cache()  # Empty CUDA cache
 
     print("==========================")
     print(cleaned_output)
@@ -170,10 +181,12 @@ def parse_output(cleaned_output):
         "options": options,
         "answer": key_answer_index
     }
+    
+    
+    del lines, question_line, question_index, options_lines, key_answer_line  # Clear memory
+    gc.collect()
 
     return output_dict
-
-
 
 if __name__ == "__main__":
     app.run(debug = True, port = 8080)
