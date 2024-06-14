@@ -5,11 +5,24 @@ import './App.css';
 import HomePage from './HomePage';
 import MCQPage from './MCQPage';
 import ResultsPage from './ResultsPage';
+import { LoadingProvider, useLoading } from './LoadingContext'; // Import LoadingProvider and useLoading
+import LoadingScreen from './LoadingScreen'; // Import LoadingScreen
 
 function App() {
   return (
+    <LoadingProvider>
+      <AppContent />
+    </LoadingProvider>
+  );
+}
+
+function AppContent() {
+  const { loading } = useLoading(); // Get loading state from context
+
+  return (
     <Router>
       <div className="App">
+        {loading && <LoadingScreen />} {/* Conditionally render LoadingScreen */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/mcq" element={<MCQPage />} />

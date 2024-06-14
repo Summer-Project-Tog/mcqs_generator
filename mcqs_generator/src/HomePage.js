@@ -3,17 +3,19 @@ import facebookLogo from "./assets/images/facebook_logo.png";
 import twitterLogo from "./assets/images/twitter_logo.png";
 import instagramLogo from "./assets/images/instagram_logo.png";
 import { useNavigate, Link } from "react-router-dom";
+import { useLoading } from "./LoadingContext"; // Import useLoading
 import "./App.css";
 
 function HomePage() {
   const [text, setText] = useState("");
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  // const backendUrl = process.env.REACT_APP_BACKEND_URL_POST_TEXT;
-  const backendUrl = "http://127.0.0.1:8080/api/mcq"; //follow the backend API link that you made locally
+  const { setLoading } = useLoading(); // Get setLoading from context
+  const backendUrl = "http://127.0.0.1:8080/api/mcq"; // Follow the backend API link that you made locally
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true); // Set loading to true
     const data = {
       notes: text,
     };
@@ -27,21 +29,17 @@ function HomePage() {
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        console.log("Data submitted successfully");
-        //Take content from API
         const responseData = await response.json();
-        //Pass in data to the MCQ Page
         navigate("/mcq", { state: { data: responseData } });
       } else {
         console.error("Failed to submit data");
         alert("Failed to submit data");
-        // Delete this later!!! when API is decided
-        // navigate("/mcq");
       }
     } catch (error) {
       console.error("Error:", error);
       alert("Error: " + error.message);
-      // navigate("/mcq");
+    } finally {
+      setLoading(false); // Set loading to false
     }
   };
 
@@ -60,24 +58,22 @@ function HomePage() {
     formData.append("file", file);
 
     try {
-      // Add the backend URL later!!!
+      setLoading(true); // Set loading to true
       const response = await fetch("backend URL", {
         method: "POST",
         body: formData,
       });
       if (response.ok) {
-        console.log("File uploaded successfully");
         navigate("/mcq");
       } else {
         console.error("Failed to upload file");
         alert("Failed to upload file");
-        // Delete this later!!! when API is decided
-        navigate("/mcq");
       }
     } catch (error) {
       console.error("Error:", error);
       alert("Error: " + error.message);
-      navigate("/mcq");
+    } finally {
+      setLoading(false); // Set loading to false
     }
   };
 
