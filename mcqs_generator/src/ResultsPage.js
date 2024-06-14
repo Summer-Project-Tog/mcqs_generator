@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
+import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import facebookLogo from "./assets/images/facebook_logo.png";
@@ -11,41 +11,56 @@ import { db, collection, getDocs } from "./firebase.js";
 function ResultsPage() {
   const [correctAnswers, setCorrectAnswers] = useState({});
   const [score, setScore] = useState(0);
+  const [mcqId, setMcqId] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const { timer, answers } = location.state || { timer: 0, answers: {} };
 
   useEffect(() => {
+    if (location.state && location.state.mcqId) {
+      setMcqId(location.state.mcqId);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
     const fetchCorrectAnswers = async () => {
-      const querySnapshot = await getDocs(collection(db, "questions"));
-      const correctAnswersObj = {};
-      querySnapshot.forEach((doc) => {
-        console.log(
-          `Fetched document: ${doc.id}, data: ${JSON.stringify(doc.data())}`
-        );
-        correctAnswersObj[doc.id] = doc.data().answer;
-      });
-      setCorrectAnswers(correctAnswersObj);
+      if (mcqId) {
+        try {
+          const querySnapshot = await getDocs(
+            collection(db, "mcqQuestions", mcqId, "questions")
+          );
+          const correctAnswersObj = {};
+          querySnapshot.forEach((doc) => {
+            // console.log(
+            //   `Fetched document: ${doc.id}, data: ${JSON.stringify(doc.data())}`
+            // );
+            correctAnswersObj[doc.id] = doc.data().answer;
+          });
+          setCorrectAnswers(correctAnswersObj);
 
-      console.log("Fetched Correct Answers:", correctAnswersObj);
+          // console.log("Fetched Correct Answers:", correctAnswersObj);
 
-      let correctCount = 0;
-      Object.keys(answers).forEach((questionId) => {
-        console.log(`User Answer for ${questionId}:`, answers[questionId]);
-        console.log(
-          `Correct Answer for ${questionId}:`,
-          correctAnswersObj[questionId]
-        );
+          let correctCount = 0;
+          Object.keys(answers).forEach((questionId) => {
+            // console.log(`User Answer for ${questionId}:`, answers[questionId]);
+            // console.log(
+            //   `Correct Answer for ${questionId}:`,
+            //   correctAnswersObj[questionId]
+            // );
 
-        if (answers[questionId] === correctAnswersObj[questionId]) {
-          correctCount++;
+            if (answers[questionId] === correctAnswersObj[questionId]) {
+              correctCount++;
+            }
+          });
+          setScore(correctCount);
+        } catch (error) {
+          console.error("Error fetching correct answers:", error);
         }
-      });
-      setScore(correctCount);
+      }
     };
 
     fetchCorrectAnswers();
-  }, [answers]);
+  }, [mcqId, answers]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -54,7 +69,7 @@ function ResultsPage() {
   };
 
   const handleShowAnswers = () => {
-    navigate("/mcq", { state: { answers, correctAnswers } });
+    navigate("/mcq", { state: { answers, correctAnswers, mcqId } });
   };
 
   return (
@@ -78,7 +93,10 @@ function ResultsPage() {
             <div className="content-results">
               <p>
                 Your results: {score}/{Object.keys(correctAnswers).length} (
-                {((score / Object.keys(correctAnswers).length) * 100).toFixed(2)}%)
+                {((score / Object.keys(correctAnswers).length) * 100).toFixed(
+                  2
+                )}
+                %)
               </p>
               <p>
                 Status:{" "}
@@ -91,17 +109,20 @@ function ResultsPage() {
             <Gauge
               width={100}
               height={100}
-              value={((score / Object.keys(correctAnswers).length) * 100).toFixed(2)}
+              value={(
+                (score / Object.keys(correctAnswers).length) *
+                100
+              ).toFixed(2)}
               cornerRadius="0%"
               sx={(theme) => ({
                 [`& .${gaugeClasses.valueText}`]: {
                   fontSize: 15,
                 },
                 [`& .${gaugeClasses.valueArc}`]: {
-                  fill: '#0085FF',
+                  fill: "#0085FF",
                 },
                 [`& .${gaugeClasses.referenceArc}`]: {
-                  fill: '#fe0100',
+                  fill: "#fe0100",
                 },
               })}
             />

@@ -8,6 +8,7 @@ import { db, collection, getDocs } from "./firebase.js";
 
 function MCQPage() {
   const [questions, setQuestions] = useState([]);
+  const [mcqId, setMcqId] = useState("");
   const [answers, setAnswers] = useState({});
   const [timer, setTimer] = useState(0);
   const [showAnswers, setShowAnswers] = useState(false);
@@ -16,34 +17,47 @@ function MCQPage() {
 
   useEffect(() => {
     if (location.state) {
-      setAnswers(location.state.answers);
-      setShowAnswers(true);
+      if (location.state.answers && location.state.correctAnswers) {
+        setAnswers(location.state.answers);
+        setShowAnswers(true);
+        setMcqId(location.state.mcqId);
+      } else if (location.state.data) {
+        const responseData = location.state.data;
+        setMcqId(responseData.question_set_id);
+      }
     }
   }, [location.state]);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      const querySnapshot = await getDocs(collection(db, "questions"));
-      const questionsArray = [];
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        questionsArray.push({
-          id: doc.id, // Use document ID
-          question: data.question,
-          options: data.option,
-        });
-      });
-      setQuestions(questionsArray);
-    };
-    fetchQuestions();
-
+    if (mcqId) {
+      const fetchQuestions = async () => {
+        try {
+          const querySnapshot = await getDocs(
+            collection(db, "mcqQuestions", mcqId, "questions")
+          );
+          const questionsArray = [];
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            questionsArray.push({
+              id: doc.id, // Use document ID
+              question: data.question,
+              options: data.options,
+            });
+          });
+          setQuestions(questionsArray);
+        } catch (error) {
+          console.error("Error fetching questions:", error);
+        }
+      };
+      fetchQuestions();
+    }
     if (!showAnswers) {
       const interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [showAnswers]);
+  }, [mcqId, showAnswers]);
 
   const handleOptionChange = (questionId, optionIndex) => {
     setAnswers({
@@ -54,7 +68,7 @@ function MCQPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/results", { state: { timer, answers } });
+    navigate("/results", { state: { timer, answers, mcqId } });
   };
 
   const formatTime = (seconds) => {

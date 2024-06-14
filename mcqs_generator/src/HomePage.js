@@ -9,15 +9,16 @@ function HomePage() {
   const [text, setText] = useState("");
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const backendUrl = process.env.REACT_APP_BACKEND_URL_POST_TEXT;
+  // const backendUrl = process.env.REACT_APP_BACKEND_URL_POST_TEXT;
+  const backendUrl = "http://127.0.0.1:8080/api/mcq"; //follow the backend API link that you made locally
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
-      text: text,
+      notes: text,
     };
+
     try {
-      // Add the backend URL later!!!
       const response = await fetch(backendUrl, {
         method: "POST",
         headers: {
@@ -27,17 +28,20 @@ function HomePage() {
       });
       if (response.ok) {
         console.log("Data submitted successfully");
-        navigate("/mcq");
+        //Take content from API
+        const responseData = await response.json();
+        //Pass in data to the MCQ Page
+        navigate("/mcq", { state: { data: responseData } });
       } else {
         console.error("Failed to submit data");
         alert("Failed to submit data");
         // Delete this later!!! when API is decided
-        navigate("/mcq");
+        // navigate("/mcq");
       }
     } catch (error) {
       console.error("Error:", error);
       alert("Error: " + error.message);
-      navigate("/mcq");
+      // navigate("/mcq");
     }
   };
 
@@ -73,6 +77,7 @@ function HomePage() {
     } catch (error) {
       console.error("Error:", error);
       alert("Error: " + error.message);
+      navigate("/mcq");
     }
   };
 
