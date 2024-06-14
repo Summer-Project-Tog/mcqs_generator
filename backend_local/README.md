@@ -33,4 +33,4 @@ When you have not installed anything, follow these steps
 
 ## Consequent Time Running
 
-When you have installed everything initially, follow steps 4-6 above to ensure python libraries are installed.
+When you have installed everything initially, follow **steps 4-6** above to ensure python libraries are installed.
