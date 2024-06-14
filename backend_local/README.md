@@ -9,9 +9,13 @@ When you have not installed anything, follow these steps
 ### `cd backend_local/`
 
 2. Download the models (adapter_config.json && adapter_model.safetensors) from Michael/Jun Yu.
-   Copy it over to backend_local directory, with both models under the folder "model/"
+   Copy it over to backend_local directory, with both models under the folder "models/"
 
 3. Create a virtual environment
+
+##if Execution Error during starting of env
+
+Set-ExecutionPolicy Unrestricted -Scope Process
 
 ### `python -m venv venv`
 
